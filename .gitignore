@@ -1,0 +1,11 @@
+target
+gradle
+.settings
+.classpath
+.project
+build.gradle
+gradlew
+gradlew.bat
+.git
+applog
+app.properties
