@@ -4,16 +4,24 @@ var original;
 var isMain = true;
 var sortFlag = true;
 var packagedata;
+
 window.onload = function() {
 	var tab = document.getElementById("myTable");
 	original = readTable(tab);
-}
-
-function selectRow(dom) {
-	if (preTarget != undefined)
-		preTarget.style.background = "#FFFFFF";
-	preTarget = dom.parentNode;
-	preTarget.style.background = "#43CD80";
+	$('tbody tr').click(function(){
+	    if (preTarget != undefined){
+	        preTarget.removeClass("success");
+	    }
+	    preTarget=$(this).addClass("success");
+	});
+	$('td a').click(function(){
+	    var url=urlPrefix+"/"+this.getAttribute("package")+"/";
+	    if (this.classList.contains('pull-right')){
+	       url+=this.innerHTML+".html";
+	    }
+	    this.setAttribute("target","_blank");
+        this.setAttribute("href",url);
+	});
 }
 
 function getValues(dom) {

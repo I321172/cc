@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Code Coverage</title>
+<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+<script th:inline="javascript">
+	var urlPrefix=[[${urlPrefix}]];
+</script>
+
+<Style>
+thead th {
+	background-color: #a4c2f4;
+	background-image: url(/images/sort.gif);
+	background-repeat: no-repeat;
+	background-position: right;
+}
+</Style>
+</head>
+<body>
+<div class="container-fluid">
+<h2 class="text-primary" th:text="'Code Coverage for '+${list[1].feature}"></h2>
+<hr/>
+    <form method="post" class="form-inline" role="form">
+			 <div class="form-group">
+				<select name="feature" class="form-control">
+					<option value="RBP">Select A Feature</option>
+					<option th:each="fea:${features}" th:text="${fea}"></option>
+				</select>
+				<select name="only" class="form-control">
+						<option>Select Show Type</option>
+						<option>Class</option>
+						<option>Package</option>
+				</select>
+				<button type="submit" class="btn btn-default">Go!</button>
+				</div>
+				<div class="form-group pull-right">
+					<div class="input-group">
+						<input type="text" id='filterValue' placeholder="Filter the File Name" class="form-control"/> 
+						<span class="input-group-btn">
+							<button type="button" onclick="filter()" class="btn btn-default">Search!</button>
+							<button type="button" onclick="reset()" class="btn btn-default">Reset</button>
+						</span>
+				</div>		
+			</div>
+	</form>
+		
+	<div id="newTable"></div>
+
+	<div>
+		<p />
+	</div>
+	<table class="table table-bordered table-striped table-condensed">
+		<thead id='thead'>
+			<tr>
+				<th class="col-lg-3" th:text="'Name in Feature:'+${list[1].feature}">Name</th>
+				<th class="col-lg-1" onclick="sortTable(this)">New Total Coverage</th>
+				<th class="col-lg-1" onclick="sortTable(this)">Old Total Coverage</th>
+				<th class="col-lg-1" onclick="sortTable(this)">Coverage Diff</th>
+				<th class="col-lg-1" onclick="sortTable(this)">New Total Line</th>
+				<th class="col-lg-1" onclick="sortTable(this)">Old Total Line</th>
+				<th class="col-lg-1" onclick="sortTable(this)">Total Line Diff</th>
+				<th class="col-lg-1" onclick="sortTable(this)">New Total Lines Executed</th>
+				<th class="col-lg-1" onclick="sortTable(this)">Old Total Lines Executed</th>
+				<th class="col-lg-1" onclick="sortTable(this)">To Be covered</th>
+			</tr>
+		</thead>
+		<tbody th:id="myTable">
+			<tr th:each="elem:${list}"
+				th:class="${elemStat.current.packag}?'text-danger':''"
+				th:attr="row=${elemStat.count}">
+				<td th:title="${elem.className?:elem.packageName}">
+					<a href="#" th:class="${elem.packag}?'text-danger':'pull-right'" th:attr="package=${elem.packageName}" th:text="${elem.name}"></a>
+				</td>
+				<td th:text="${elem.newTotalCoverage}"></td>
+				<td th:text="${elem.oldTotalCoverage}"></td>
+				<td th:text="${elem.coverageDiffer}"></td>
+				<td th:text="${elem.newTotalLines}"></td>
+				<td th:text="${elem.oldTotalLines}"></td>
+				<td th:text="${elem.totallinesdiffer}"></td>
+				<td th:text="${elem.newTotalLinesExecuted}"></td>
+				<td th:text="${elem.oldTotalLinesExecuted}"></td>
+				<td th:text="${elem.toBeCovered}"></td>
+			</tr>
+		</tbody>
+	</table>
+	<hr/>
+	</div>
+	<footer id="footer" class="pull-right">By <a href="mailto:jason.guan01@sap.com">Jason</a></footer>
+	<script th:src="@{/js/coverage.js}"></script>
+	<script src="/js/jquery-1.9.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

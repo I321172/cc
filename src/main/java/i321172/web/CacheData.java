@@ -56,9 +56,19 @@ public class CacheData
         return urlPrefix;
     }
 
+    public void setUrlPrefix(String url)
+    {
+        urlPrefix = url;
+    }
+
     public String getCurrentTime()
     {
         return currentTime;
+    }
+
+    public void setCurrentTime(String time)
+    {
+        currentTime = time;
     }
 
     public String getCoverageFilePrefix()

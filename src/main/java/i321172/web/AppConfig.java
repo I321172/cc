@@ -1,6 +1,5 @@
 package i321172.web;
 
-import i321172.utils.SmartDataMySqlSourceImp;
 import i321172.utils.SmartDataOracleSourceImp;
 
 import java.sql.SQLException;
@@ -37,22 +36,6 @@ public class AppConfig
             logger.error(e.getMessage());
         }
         return null;
-    }
-
-    // cannot have two DataSource instance
-
-    // @Bean(name = "mysqlSource")
-    public DataSource getMysqlSource(@Value("${mysql.host}") String host, @Value("${mysql.name}") String databaseName,
-            @Value("${mysql.user}") String user, @Value("${mysql.password}") String password,
-            @Value("${mysql.port}") String port)
-    {
-        SmartDataMySqlSourceImp dataSource = new SmartDataMySqlSourceImp();
-        dataSource.setServerName(host);
-        dataSource.setDatabaseName(databaseName);
-        dataSource.setUser(user);
-        dataSource.setPassword(password);
-        dataSource.setPort(Integer.valueOf(port));
-        return dataSource;
     }
 
     @Bean(name = "jdbcTemplate")

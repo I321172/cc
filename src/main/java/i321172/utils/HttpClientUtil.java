@@ -19,11 +19,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 @Service()
-@Scope("prototype")
 public class HttpClientUtil
 {
     private Map<String, String> headers    = new HashMap<String, String>();
@@ -253,7 +251,7 @@ public class HttpClientUtil
 
     private void log(String msg)
     {
-        logger.debug(msg);
+        logger.info(msg);
     }
 
     public void setMethodType(String method)

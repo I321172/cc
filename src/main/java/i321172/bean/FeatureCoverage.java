@@ -13,6 +13,17 @@ public class FeatureCoverage
         return list;
     }
 
+    public List<CoverageBean> getList(boolean isClass)
+    {
+        if (isClass)
+        {
+            return getList();
+        } else
+        {
+            return getOnlyPackagelist();
+        }
+    }
+
     public void setList(List<CoverageBean> list)
     {
         this.list = list;

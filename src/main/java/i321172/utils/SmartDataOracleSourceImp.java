@@ -10,9 +10,7 @@ import java.util.logging.Logger;
 import oracle.jdbc.pool.OracleDataSource;
 
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.datasource.SmartDataSource;
-
 
 public class SmartDataOracleSourceImp extends OracleDataSource implements SmartDataSource, DisposableBean
 {
