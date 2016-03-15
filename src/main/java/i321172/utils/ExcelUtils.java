@@ -276,26 +276,6 @@ public class ExcelUtils
         wb.close();
     }
 
-    public static void main(String args[]) throws IOException
-    {
-        // String fileName = getDefaultFilePath() +
-        // "arpPassFail_EmilSorted_5-18-2015.xls";
-        // ExcelUtils.readFileAsMap(fileName, "total");
-
-        Map<String, List<String>> map = new LinkedHashMap<String, List<String>>();
-        for (int i = 0; i < 10; i++)
-        {
-            List<String> current = new ArrayList<String>();
-            map.put("row" + i, current);
-            for (int j = 0; j < 20; j++)
-            {
-                current.add("Value" + i + j);
-            }
-        }
-
-        createExcelFile(map, "test.xls");
-    }
-
     private static String getDefaultFilePath()
     {
         String userdir = System.getProperty("user.dir");

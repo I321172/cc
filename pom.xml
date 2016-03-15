@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>i321172</groupId>
-	<artifactId>code</artifactId>
+	<artifactId>code.coverage</artifactId>
 	<packaging>war</packaging>
 
 	<parent>
