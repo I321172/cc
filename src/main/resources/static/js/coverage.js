@@ -1,8 +1,6 @@
 var preTarget;
 var data;
 var original;
-var isMain = true;
-var sortFlag = true;
 var packagedata;
 
 window.onload = function() {
@@ -14,6 +12,10 @@ window.onload = function() {
 	    }
 	    preTarget=$(this).addClass("success");
 	});
+	$('th').click(function(){
+	    if (this.innerHTML.indexOf("Feature")<0)
+	        sortTable(this) ;
+	});
 	$('td a').click(function(){
 	    var url=urlPrefix+"/"+this.getAttribute("package")+"/";
 	    if (this.classList.contains('pull-right')){
@@ -24,17 +26,6 @@ window.onload = function() {
 	});
 }
 
-function getValues(dom) {
-	var tab = dom.parentNode.parentNode;
-	if (tab.getAttribute("id") != "thead") {
-		isMain = false;
-		return readTempTable();
-	} else {
-		isMain = true;
-		return readMainTable();
-	}
-}
-
 function readTable(tab) {
 	var col = tab.rows[0].cells.length;
 	var tb = new Array();
@@ -42,19 +33,15 @@ function readTable(tab) {
 		var temp = new Array();
 		for (var j = 0; j < col; j++) {
 			if (j == 0) {
-				temp[j] = tab.rows[i].cells[j].innerHTML;
-				temp[j + 1] = tab.rows[i].cells[j].getAttribute("title");
+			    var link=tab.rows[i].cells[j].querySelector("a");
+				temp[j] = link.getAttribute("package");
+				temp[j + 1] = link.innerHTML;
 			} else
 				temp[j + 1] = tab.rows[i].cells[j].innerHTML;
 		}
 		tb[i] = temp;
 	}
 	return tb;
-}
-
-function readTempTable() {
-	var tab = document.getElementById("tempTable");
-	return readTable(tab);
 }
 
 function readMainTable() {
@@ -76,9 +63,20 @@ function getIndex(node) {
 	}
 }
 
+function getSort(dom){
+    var sortFlag=dom.getAttribute("sort")=="up";
+    if (sortFlag){
+        dom.setAttribute("sort","dw");
+    }else{
+        dom.setAttribute("sort","up");
+    }
+    return sortFlag;
+}
+
 function sortArray(dom) {
 	var sortIndex = getIndex(dom) + 1;
-	var arr = getValues(dom);
+	var arr = readMainTable();
+	var sortFlag=getSort(dom);
 
 	for (var i = 0; i < arr.length; i++) {
 		for (var j = 0; j < i; j++) {
@@ -103,27 +101,24 @@ function sortArray(dom) {
 function sortTable(dom) {
 	var arr = sortArray(dom);
 	fillTable(arr);
-	sortFlag = !sortFlag;
 }
 
 function fillTable(arr) {
-	if (isMain) {
-		tab = document.getElementById("myTable");
-	} else {
-		tab = document.getElementById("tempTable");
-	}
+	var tab = document.getElementById("myTable");
 	var col = tab.rows[0].cells.length;
 	for (var i = 0; i < arr.length; i++) {
 		for (var j = 0; j < col; j++) {
 			if (j == 0) {
-				tab.rows[i].cells[j].innerHTML = arr[i][j];
-				tab.rows[i].cells[j].setAttribute("title", arr[i][j + 1]);
+			    var td=tab.rows[i].cells[j];
+			    var link=td.querySelector("a");
+			    link.setAttribute("package",arr[i][j]);
+				link.innerHTML = arr[i][j+1];
 				if (arr[i][j] == arr[i][j + 1]) {
-					tab.rows[i].cells[j].parentNode.setAttribute("class",
-							"package");
+				    td.setAttribute("title",arr[i][j]);
+					link.classList.add("text-danger");
 				} else {
-					tab.rows[i].cells[j].parentNode.setAttribute("class",
-							"class");
+				    td.setAttribute("title",arr[i][j]+"."+arr[i][j+1]);
+                    link.classList.add("pull-right");
 				}
 			} else
 				tab.rows[i].cells[j].innerHTML = arr[i][j + 1];

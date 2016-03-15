@@ -21,7 +21,7 @@ thead th {
 </head>
 <body>
 <div class="container-fluid">
-<h2 class="text-primary" th:text="'Code Coverage for '+${list[1].feature}"></h2>
+<h2 class="text-primary" th:text="'Code Coverage for '+${currentFeature}"></h2>
 <hr/>
     <form method="post" class="form-inline" role="form">
 			 <div class="form-group">
@@ -35,6 +35,8 @@ thead th {
 						<option>Package</option>
 				</select>
 				<button type="submit" class="btn btn-default">Go!</button>
+				<a id="download" th:href="@{/cc/download(feature=${currentFeature})}" th:class="'btn btn-default '+ (${package}?'disabled':'')">Download</a>
+				<span class="text-muted">Only Available after Show Class Info</span>
 				</div>
 				<div class="form-group pull-right">
 					<div class="input-group">
@@ -55,19 +57,19 @@ thead th {
 	<table class="table table-bordered table-striped table-condensed">
 		<thead id='thead'>
 			<tr>
-				<th class="col-lg-3" th:text="'Name in Feature:'+${list[1].feature}">Name</th>
-				<th class="col-lg-1" onclick="sortTable(this)">New Total Coverage</th>
-				<th class="col-lg-1" onclick="sortTable(this)">Old Total Coverage</th>
-				<th class="col-lg-1" onclick="sortTable(this)">Coverage Diff</th>
-				<th class="col-lg-1" onclick="sortTable(this)">New Total Line</th>
-				<th class="col-lg-1" onclick="sortTable(this)">Old Total Line</th>
-				<th class="col-lg-1" onclick="sortTable(this)">Total Line Diff</th>
-				<th class="col-lg-1" onclick="sortTable(this)">New Total Lines Executed</th>
-				<th class="col-lg-1" onclick="sortTable(this)">Old Total Lines Executed</th>
-				<th class="col-lg-1" onclick="sortTable(this)">To Be covered</th>
+				<th class="col-lg-3" th:text="'Name in Feature:'+${currentFeature}">Name</th>
+				<th class="col-lg-1" sort="up">New Total Coverage</th>
+				<th class="col-lg-1" sort="up">Old Total Coverage</th>
+				<th class="col-lg-1" sort="up">Coverage Diff</th>
+				<th class="col-lg-1" sort="up">New Total Line</th>
+				<th class="col-lg-1" sort="up">Old Total Line</th>
+				<th class="col-lg-1" sort="up">Total Line Diff</th>
+				<th class="col-lg-1" sort="up">New Total Lines Executed</th>
+				<th class="col-lg-1" sort="up">Old Total Lines Executed</th>
+				<th class="col-lg-1" sort="up">To Be Covered</th>
 			</tr>
 		</thead>
-		<tbody th:id="myTable">
+		<tbody id="myTable">
 			<tr th:each="elem:${list}"
 				th:class="${elemStat.current.packag}?'text-danger':''"
 				th:attr="row=${elemStat.count}">
