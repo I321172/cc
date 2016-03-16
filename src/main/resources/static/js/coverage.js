@@ -115,10 +115,12 @@ function fillTable(arr) {
 				link.innerHTML = arr[i][j+1];
 				if (arr[i][j] == arr[i][j + 1]) {
 				    td.setAttribute("title",arr[i][j]);
-					link.classList.add("text-danger");
+				    td.parentNode.setAttribute("class","text-danger")
+					link.setAttribute("class","text-danger");
 				} else {
 				    td.setAttribute("title",arr[i][j]+"."+arr[i][j+1]);
-                    link.classList.add("pull-right");
+				    td.parentNode.classList.remove("text-danger")
+                    link.setAttribute("class","pull-right");
 				}
 			} else
 				tab.rows[i].cells[j].innerHTML = arr[i][j + 1];
