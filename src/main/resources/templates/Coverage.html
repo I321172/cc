@@ -35,7 +35,7 @@ thead th {
 						<option>Package</option>
 				</select>
 				<button type="submit" class="btn btn-default">Go!</button>
-				<a id="download" th:href="@{/cc/download(feature=${currentFeature})}" th:class="'btn btn-default '+ (${package}?'disabled':'')">Download</a>
+				<a id="download" th:href="@{/download(feature=${currentFeature})}" th:class="'btn btn-default '+ (${package}?'disabled':'')">Download</a>
 				<span class="text-muted">Only Available after Show Class Info</span>
 				</div>
 				<div class="form-group pull-right">
@@ -43,7 +43,7 @@ thead th {
 						<input type="text" id='filterValue' placeholder="Filter the File Name" class="form-control"/> 
 						<span class="input-group-btn">
 							<button type="button" onclick="filter()" class="btn btn-default">Search!</button>
-							<button type="button" onclick="reset()" class="btn btn-default">Reset</button>
+							<button type="button" onclick="list()" class="btn btn-default">Reset</button>
 						</span>
 				</div>		
 			</div>

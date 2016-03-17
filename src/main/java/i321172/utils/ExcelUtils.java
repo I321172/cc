@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 public class ExcelUtils
@@ -87,6 +90,69 @@ public class ExcelUtils
         return new HSSFWorkbook();
     }
 
+    public static void fillSheet(HSSFSheet sheet, String[] headers, List<String[]> lists)
+    {
+        addHeader(sheet, headers);
+        addBody(sheet, lists);
+    }
+
+    public static void fillHeaderStyle(HSSFSheet sheet, HSSFCellStyle style)
+    {
+        for (Iterator<Cell> it = sheet.getRow(0).cellIterator(); it.hasNext();)
+        {
+            it.next().setCellStyle(style);
+        }
+    }
+
+    public static void setColumnWidth(HSSFSheet sheet, Map<Integer, Integer> columnWidths)
+    {
+        for (int col : columnWidths.keySet())
+        {
+            sheet.setColumnWidth(col, columnWidths.get(col));
+        }
+    }
+
+    public static void setRowHeight(HSSFSheet sheet, Map<Integer, Integer> rowHeights, int defaultHeight)
+    {
+        int index = 0;
+        int height = 0;
+        for (Iterator<Row> it = sheet.rowIterator(); it.hasNext();)
+        {
+            Row cur = it.next();
+            index = cur.getRowNum();
+            height = rowHeights.containsKey(index) ? rowHeights.get(index) : defaultHeight;
+            cur.setHeightInPoints(height);
+        }
+    }
+
+    public static void setRowHeight(HSSFSheet sheet, Map<Integer, Integer> rowHeights)
+    {
+        setRowHeight(sheet, rowHeights, -1);
+    }
+
+    public static void setRowHeight(HSSFSheet sheet, int defaultHeight)
+    {
+        setRowHeight(sheet, new HashMap<Integer, Integer>(), defaultHeight);
+    }
+
+    /**
+     * @param sheet
+     * @param columnWidths
+     *            each one must be int,int
+     */
+    public static void setColumnWidth(HSSFSheet sheet, String... columnWidths)
+    {
+        Map<Integer, Integer> widths = new HashMap<Integer, Integer>();
+        for (String col : columnWidths)
+        {
+            String[] splits = col.split(",");
+            widths.put(Integer.parseInt(splits[0]), Integer.parseInt(splits[1]));
+        }
+
+        // here is actually to do
+        setColumnWidth(sheet, widths);
+    }
+
     public static void createExcelFile(Map<String, List<String>> modifiedMap, String fileName) throws IOException
     {
         if (modifiedMap == null || modifiedMap.keySet().size() == 0)
@@ -144,6 +210,15 @@ public class ExcelUtils
         out.close();
         wb.close();
         log("Create Excel takes " + getDuration(start) + " at " + filePath);
+    }
+
+    public static void createExcelFile(HSSFWorkbook wb, String filename) throws Exception
+    {
+        FileOutputStream out = new FileOutputStream(filename);
+        wb.write(out);
+        out.close();
+        wb.close();
+        log("Create Excel at " + filename);
     }
 
     public static void addHeader(HSSFSheet s, String[] headers)

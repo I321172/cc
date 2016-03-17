@@ -1,11 +1,7 @@
 var preTarget;
 var data;
-var original;
-var packagedata;
 
 window.onload = function() {
-	var tab = document.getElementById("myTable");
-	original = readTable(tab);
 	$('tbody tr').click(function(){
 	    if (preTarget != undefined){
 	        preTarget.removeClass("success");
@@ -101,6 +97,7 @@ function sortArray(dom) {
 function sortTable(dom) {
 	var arr = sortArray(dom);
 	fillTable(arr);
+	filter();
 }
 
 function fillTable(arr) {
@@ -128,128 +125,24 @@ function fillTable(arr) {
 	}
 }
 
-function createTable(arr) {
-	var table = document.createElement("table");
-	table.setAttribute("border", "1");
-	table.setAttribute("id", "created");
-	var thead = createHeader();
-	var tbody = createBody(arr);
-	table.appendChild(thead);
-	table.appendChild(tbody);
-	document.getElementById("newTable").appendChild(table);
-}
-
-function createTR(arr) {
-	var tr = document.createElement("tr");
-
-	for (var j = 0; j < arr.length - 1; j++) {
-		var td = document.createElement("td");
-		if (j == 0) {
-			td.innerHTML = arr[j];
-			td.setAttribute("onclick", "selectRow(this)");
-			td.setAttribute("id", "name");
-			td.setAttribute("title", arr[j + 1]);
-			if (arr[j] == arr[j + 1])
-				tr.setAttribute("class", "package");
-		} else {
-			td.innerHTML = arr[j + 1];
-		}
-		tr.appendChild(td);
-	}
-
-	return tr;
-}
-
-function createBody(arrs) {
-	var tbody = document.createElement("tbody");
-	for (var i = 0; i < arrs.length; i++) {
-		var tr = createTR(arrs[i]);
-		tbody.appendChild(tr);
-	}
-	tbody.setAttribute("id", "tempTable");
-	return tbody;
-}
-
-function createHeader(arr) {
-	var thead = document.createElement("thead");
-	var tr = document.createElement("tr");
-	var orig = document.getElementById("thead");
-	for (var j = 0; j < orig.rows[0].cells.length; j++) {
-		var td = document.createElement("th");
-		if (j > 0) {
-			td.setAttribute("onclick", "sortTable(this)");
-		}
-		td.innerHTML = orig.rows[0].cells[j].innerHTML;
-		tr.appendChild(td);
-	}
-	thead.appendChild(tr);
-	return thead;
-}
-
-function getFilterArr(val) {
-	var res = new Array();
-	var index = 0;
-	for (var i = 0; i < original.length; i++) {
-		if (original[i][1].toLowerCase().indexOf(val.toLowerCase()) >= 0) {
-			res[index++] = original[i];
-		}
-	}
-	return res;
-}
-
 function filter() {
-	removeCreated();
-	var val = document.getElementById("filterValue").value;
+	var val = $("#filterValue").val();
+	var count=0;
 	if (val != "") {
-		var arr = getFilterArr(val);
-		if (arr.length > 0)
-			createTable(arr);
-	} else {
-		removeCreated();
+	    $('tr.hide').removeClass('hide');
+	    $('a[package]').each(function(){
+	       if( $(this).text().indexOf(val)<0&&$(this).attr("package").indexOf(val)<0){
+	           $(this).parents('tr').addClass('hide');
+	       }else{
+	           count++;
+	       }
+	   });
+	} 
+	if (count==0){
+	    $("#filterValue").val('No Result!')
 	}
 }
 
-function showPackage() {
-	removeCreated();
-	var arr = getPackage();
-	createTable(arr);
-}
-
-function getPackage() {
-	if (packageData == undefined) {
-		isMain = false;
-		var tab = document.getElementById("myTable");
-		var col = tab.rows[0].cells.length;
-		var packageData = new Array();
-		var index = 0;
-		for (var i = 0; i < tab.rows.length; i++) {
-
-			if (tab.rows[i].getAttribute("class") == "package") {
-				var temp = new Array();
-				for (var j = 0; j < col; j++) {
-					if (j == 0) {
-						temp[j] = tab.rows[i].cells[j].innerHTML;
-						temp[j + 1] = tab.rows[i].cells[j]
-								.getAttribute("title");
-					} else
-						temp[j + 1] = tab.rows[i].cells[j].innerHTML;
-				}
-				packageData[index++] = temp;
-			}
-		}
-	}
-	return packageData;
-}
-
-function removeCreated() {
-	var table = document.getElementById("created");
-	if (table != undefined) {
-		table.parentNode.removeChild(table);
-	}
-}
-function reset() {
-	removeCreated();
-	document.getElementById("filterValue").value = "";
-	isMain = true;
-	fillTable(original);
+function list() {
+    window.location.reload();
 }

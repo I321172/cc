@@ -28,7 +28,7 @@ public class RequestController
     @Resource
     private ExcelUtilForCC ccExcel;
 
-    @RequestMapping(value = "/show/cc")
+    @RequestMapping(value = "/show")
     public String showCodeCoverage(@RequestParam(value = "feature", defaultValue = "RBP") String feature,
             @RequestParam(value = "only", defaultValue = "Package") String onlyPackage, Model model)
     {
@@ -42,7 +42,7 @@ public class RequestController
         return "Coverage";
     }
 
-    @RequestMapping(value = "/refresh/conn")
+    @RequestMapping(value = "/close/conn")
     public String refreshConnect(Model model) throws Exception
     {
         dbUtil.releaseConnectionPool();
@@ -50,7 +50,7 @@ public class RequestController
         return "result";
     }
 
-    @RequestMapping(value = "/cc/date")
+    @RequestMapping(value = "/date")
     public String setCCRunDate(@RequestParam(value = "date", required = false) String date,
             @RequestParam(value = "site", required = false) String site, Model model) throws Exception
     {
@@ -60,7 +60,7 @@ public class RequestController
         return "result";
     }
 
-    @RequestMapping(value = "/cc/download")
+    @RequestMapping(value = "/download")
     public void downloadFile(@RequestParam(value = "feature") String feature, HttpServletResponse response)
     {
         response.addHeader("content-disposition", "attachment;filename=Code-Coverage-" + feature + ".xls");
@@ -69,6 +69,7 @@ public class RequestController
         try
         {
             book.write(response.getOutputStream());
+            book.close();
         } catch (Exception e)
         {
             // TODO Auto-generated catch block
