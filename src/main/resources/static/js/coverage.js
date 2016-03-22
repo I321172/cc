@@ -137,10 +137,11 @@ function filter() {
 	           count++;
 	       }
 	   });
+	    if (count==0){
+	        $("#filterValue").val('No Result!')
+	    }
 	} 
-	if (count==0){
-	    $("#filterValue").val('No Result!')
-	}
+	
 }
 
 function list() {
