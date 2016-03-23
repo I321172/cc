@@ -36,6 +36,7 @@ public class RequestController
         model.addAttribute("features", cache.getAllFeatures());
         model.addAttribute("currentFeature", feature);
         model.addAttribute("package", !isClass);
+        model.addAttribute("showType", onlyPackage);
         FeatureCoverage featureCov = getFeature(feature, isClass);
         model.addAttribute("list", featureCov.getList(isClass));
         model.addAttribute("urlPrefix", getCoverageFilePrefix());
@@ -61,10 +62,11 @@ public class RequestController
     }
 
     @RequestMapping(value = "/download")
-    public void downloadFile(@RequestParam(value = "feature") String feature, HttpServletResponse response)
+    public void downloadFile(@RequestParam(value = "feature") String feature,
+            @RequestParam(value = "showType", defaultValue = "Class") String featchAll, HttpServletResponse response)
     {
         response.addHeader("content-disposition", "attachment;filename=Code-Coverage-" + feature + ".xls");
-        FeatureCoverage featureCov = getFeature(feature, true);
+        FeatureCoverage featureCov = getFeature(feature, "class".equalsIgnoreCase(featchAll));
         HSSFWorkbook book = ccExcel.createWorkbook(featureCov.getList(false), featureCov.getList());
         try
         {

@@ -21,10 +21,14 @@ public class ExcelUtilForCC
     public HSSFWorkbook createWorkbook(List<CoverageBean> packageList, String[] headers, List<CoverageBean> classList)
     {
         HSSFWorkbook wb = ExcelUtils.createWorkBook();
+
         HSSFSheet pack = wb.createSheet("Package");
-        HSSFSheet cla = wb.createSheet("Class");
         fillSheet(pack, headers, packageList);
-        fillSheet(cla, headers, classList);
+        if (classList != null && !classList.isEmpty())
+        {
+            HSSFSheet cla = wb.createSheet("Class");
+            fillSheet(cla, headers, classList);
+        }
 
         handleExcelStyle(wb);
         return wb;
@@ -91,7 +95,8 @@ public class ExcelUtilForCC
         HSSFSheet pack = wb.getSheet("Package");
         HSSFSheet cla = wb.getSheet("Class");
         handleSheetStyle(pack, style);
-        handleSheetStyle(cla, style);
+        if (cla != null)
+            handleSheetStyle(cla, style);
     }
 
     private void handleSheetStyle(HSSFSheet sheet, HSSFCellStyle style)
@@ -124,11 +129,12 @@ public class ExcelUtilForCC
         return body;
     }
 
-//    public static void main(String args[]) throws Exception
-//    {
-//        ExcelUtilForCC excel = new ExcelUtilForCC();
-//        HSSFWorkbook wb = excel.createWorkbook(new ArrayList<CoverageBean>(), new ArrayList<CoverageBean>());
-//        ExcelUtils.createExcelFile(wb, "jasonexcel.xls");
-//    }
+    // public static void main(String args[]) throws Exception
+    // {
+    // ExcelUtilForCC excel = new ExcelUtilForCC();
+    // HSSFWorkbook wb = excel.createWorkbook(new ArrayList<CoverageBean>(), new
+    // ArrayList<CoverageBean>());
+    // ExcelUtils.createExcelFile(wb, "jasonexcel.xls");
+    // }
 
 }

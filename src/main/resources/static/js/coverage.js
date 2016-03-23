@@ -2,7 +2,7 @@ var preTarget;
 var data;
 
 window.onload = function() {
-	$('tbody tr').click(function(){
+   	$('tbody tr').click(function(){
 	    if (preTarget != undefined){
 	        preTarget.removeClass("success");
 	    }
@@ -19,6 +19,15 @@ window.onload = function() {
 	    }
 	    this.setAttribute("target","_blank");
         this.setAttribute("href",url);
+	});
+	
+	$('#download').click(function(){
+	    var para="?feature="+$('#feature').val()+"&showType="+$('#showType').val();
+	    var href=$(this).attr("href");
+	    if (href.indexOf("?")>0){
+	       href=href.substring(0,href.indexOf("?"));
+	    }
+	    $(this).attr("href",href+para);
 	});
 }
 
