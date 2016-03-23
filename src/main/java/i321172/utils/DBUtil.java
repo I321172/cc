@@ -63,14 +63,6 @@ public class DBUtil
         return features;
     }
 
-    public void releaseConnectionPool()
-    {
-        if (jdbc.getDataSource() instanceof SmartDataOracleSourceImp)
-        {
-            ((SmartDataOracleSourceImp) jdbc.getDataSource()).closeAllConnections();
-        }
-    }
-
     private void log(String msg)
     {
         logger.info(msg);

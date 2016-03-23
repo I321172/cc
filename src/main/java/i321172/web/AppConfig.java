@@ -1,6 +1,6 @@
 package i321172.web;
 
-import i321172.utils.SmartDataOracleSourceImp;
+import oracle.jdbc.pool.OracleDataSource;
 
 import java.sql.SQLException;
 
@@ -26,7 +26,7 @@ public class AppConfig
     {
         try
         {
-            SmartDataOracleSourceImp dataSource = new SmartDataOracleSourceImp();
+            OracleDataSource dataSource = new OracleDataSource();
             dataSource.setURL(url);;
             dataSource.setUser(user);
             dataSource.setPassword(password);

@@ -36,6 +36,11 @@ public class CacheData
         return featureData;
     }
 
+    public void clearFeatureData()
+    {
+        featureData.clear();
+    }
+
     public void setFeatureData(Map<String, FeatureCoverage> featureData)
     {
         this.featureData = featureData;

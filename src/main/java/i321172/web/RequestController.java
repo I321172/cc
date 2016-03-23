@@ -42,11 +42,11 @@ public class RequestController
         return "Coverage";
     }
 
-    @RequestMapping(value = "/close/conn")
+    @RequestMapping(value = "/refresh/feature")
     public String refreshConnect(Model model) throws Exception
     {
-        dbUtil.releaseConnectionPool();
-        model.addAttribute("result", "Connection All Closed! Connection Pool Refreshed!");
+        cache.clearFeatureData();
+        model.addAttribute("result", "Feature Data refresh");
         return "result";
     }
 
@@ -82,7 +82,7 @@ public class RequestController
         return cache.getCoverageFilePrefix();
     }
 
-    private FeatureCoverage getFeature(String feature, boolean fetchAll)
+    public FeatureCoverage getFeature(String feature, boolean fetchAll)
     {
         FeatureCoverage featureData = cache.getFeatureData(feature);
         if (featureData == null)
