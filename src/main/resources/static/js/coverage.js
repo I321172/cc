@@ -12,7 +12,7 @@ window.onload = function() {
 	    if (this.innerHTML.indexOf("Feature")<0)
 	        sortTable(this) ;
 	});
-	$('td a').click(function(){
+	$('td a').mouseover(function(){
 	    var url=urlPrefix+"/"+this.getAttribute("package")+"/";
 	    if (this.classList.contains('pull-right')){
 	       url+=this.innerHTML+".html";
