@@ -1,2 +1,2 @@
-# cc
+
 Hello World
