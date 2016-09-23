@@ -1,6 +1,6 @@
 package i321172.bean;
 
-public class CoverageBean
+public class CoverageCompareBean
 {
     private boolean packag;
     private String  feature;

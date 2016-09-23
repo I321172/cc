@@ -1,29 +1,31 @@
-package i321172.bean;
+package i321172.dao.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class CoverageMapper implements RowMapper<CoverageBean>
+import i321172.bean.CoverageCompareBean;
+
+public class CoverageCompareMapper implements RowMapper<CoverageCompareBean>
 {
     private boolean onlyPackage;
 
-    public CoverageMapper()
+    public CoverageCompareMapper()
     {
 
     }
 
-    public CoverageMapper(boolean onlyPackage)
+    public CoverageCompareMapper(boolean onlyPackage)
     {
         this.setOnlyPackage(onlyPackage);
     }
 
     @Override
-    public CoverageBean mapRow(ResultSet rs, int rowNum) throws SQLException
+    public CoverageCompareBean mapRow(ResultSet rs, int rowNum) throws SQLException
     {
         // TODO Auto-generated method stub
-        CoverageBean covBean = new CoverageBean();
+        CoverageCompareBean covBean = new CoverageCompareBean();
         covBean.setFeature(rs.getString("feature"));
         covBean.setPackageName(rs.getString("packagename"));
         if (!onlyPackage)

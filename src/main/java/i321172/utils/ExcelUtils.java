@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,6 +37,11 @@ public class ExcelUtils
     public static HSSFWorkbook readFile(String filename) throws IOException
     {
         return new HSSFWorkbook(new FileInputStream(filename));
+    }
+
+    public static HSSFWorkbook toBook(InputStream is) throws IOException
+    {
+        return new HSSFWorkbook(is);
     }
 
     private static void log(String msg)

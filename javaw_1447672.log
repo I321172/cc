@@ -1,0 +1,12 @@
+---
+VM version: Jun 17 2016 18:44:25 - 71_REL - optU - windows amd64 - 6 - bas2:271433 (mixed mode)
+
+Time:2016-09-2215:40:21
+Pid: 1447672
+Hostname: PVGN50862373A
+current dir: D:\eclipseStore\Code Coverage\coverage
+---
+   :    [1445040]   15:40:21 ***ERROR (error_messages.c:89): ERROR: transport error 202: connect failed: Connection refused
+   :    [1445040]   15:40:21 ***ERROR (error_messages.c:89): ERROR: JDWP Transport dt_socket failed to initialize, TRANSPORT_INIT(510)
+   :    [1445040]   15:40:21 ***ERROR (debugInit.c:829): JDWP exit error 
+   :    [1445040]   15:40:21 ***ERROR (error_messages.c:89): ERROR: JDWP No transports initialized, jvmtiError=AGENT_ERROR_TRANSPORT_INIT(197)

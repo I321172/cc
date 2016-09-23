@@ -13,12 +13,12 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.springframework.stereotype.Service;
 
-import i321172.bean.CoverageBean;
+import i321172.bean.CoverageCompareBean;
 
 @Service
 public class ExcelUtilForCC
 {
-    public HSSFWorkbook createWorkbook(List<CoverageBean> packageList, String[] headers, List<CoverageBean> classList)
+    public HSSFWorkbook createWorkbook(List<CoverageCompareBean> packageList, String[] headers, List<CoverageCompareBean> classList)
     {
         HSSFWorkbook wb = ExcelUtils.createWorkBook();
 
@@ -44,7 +44,7 @@ public class ExcelUtilForCC
      * @param classList
      * @return
      */
-    public HSSFWorkbook createWorkbook(List<CoverageBean> packageList, List<CoverageBean> classList)
+    public HSSFWorkbook createWorkbook(List<CoverageCompareBean> packageList, List<CoverageCompareBean> classList)
     {
         String[] headers = { "Name", "New Total Coverage", "Old Total Coverage", "Coverage Diff", "New Total Line",
                 "Old Total Line", "Total Line Diff", "New Total Lines Executed", "Old Total Lines Executed",
@@ -52,7 +52,7 @@ public class ExcelUtilForCC
         return createWorkbook(packageList, headers, classList);
     }
 
-    private void fillSheet(HSSFSheet sheet, String[] headers, List<CoverageBean> body)
+    private void fillSheet(HSSFSheet sheet, String[] headers, List<CoverageCompareBean> body)
     {
         ExcelUtils.fillSheet(sheet, headers, convertBody(body));
     }
@@ -72,7 +72,7 @@ public class ExcelUtilForCC
         return style;
     }
 
-    private String[] convertToArray(CoverageBean coverage)
+    private String[] convertToArray(CoverageCompareBean coverage)
     {
         String result[] = new String[11];
         result[0] = coverage.getName();
@@ -119,10 +119,10 @@ public class ExcelUtilForCC
         ExcelUtils.setRowHeight(sheet, lengths);
     }
 
-    private List<String[]> convertBody(List<CoverageBean> lists)
+    private List<String[]> convertBody(List<CoverageCompareBean> lists)
     {
         List<String[]> body = new ArrayList<String[]>();
-        for (CoverageBean cov : lists)
+        for (CoverageCompareBean cov : lists)
         {
             body.add(convertToArray(cov));
         }
