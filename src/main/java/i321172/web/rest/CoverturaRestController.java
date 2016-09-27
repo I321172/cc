@@ -39,11 +39,10 @@ public class CoverturaRestController
 
     @RequestMapping(value = "/api/import/package")
     public String ImportPackageData(@RequestParam String period, @RequestParam(defaultValue = "9") String moduleId,
-            @RequestParam(defaultValue = "Platform") String moduleName) throws Exception
+            @RequestParam(defaultValue = "Platform") String moduleName, @RequestParam String call) throws Exception
     {
         int count = fetch.importPackageData(period, moduleId, moduleName);
         return count + " Package Data Record imported";
-
     }
 
     @RequestMapping(value = "/api/import/class")
@@ -54,9 +53,22 @@ public class CoverturaRestController
         return count + " Class Data Record imported";
     }
 
-    @RequestMapping(value = "/api/table/create/feature")
-    public void createFeatureOwnerMappingTable(@RequestParam(defaultValue = "true") boolean isDrop) throws Exception
+    @RequestMapping(value = "/api/table/create")
+    public void createTable(@RequestParam String table, @RequestParam(required = false) String cp,
+            @RequestParam(required = false) String pp) throws Exception
     {
-        tableService.createFeatureOwnerMappingTable(isDrop);
+        if (table.equalsIgnoreCase("feature"))
+            tableService.createFeatureOwnerMappingTable();
+        else if (table.equalsIgnoreCase("packagediff"))
+            tableService.createPackageDiffTable(cp, pp);
+        else if (table.equalsIgnoreCase("classdiff"))
+            tableService.createClassDiffTable(cp, pp);
+        else if (table.equalsIgnoreCase("periodpackage"))
+            tableService.createPeriodPackageDataTable(cp);
+        else if (table.equalsIgnoreCase("periodpackagediff"))
+            tableService.createPeriodPackageCompareTable(cp, pp);
+        else
+            throw new Exception("No such Operation");
+
     }
 }
