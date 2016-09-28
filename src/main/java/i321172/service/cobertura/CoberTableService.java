@@ -12,8 +12,28 @@ public class CoberTableService
     @Resource
     private CoverageDao coverageDao;
 
-    public void createFeatureOwnerMappingTable(boolean isDropBeforeCreate)
+    public void createFeatureOwnerMappingTable()
     {
-        coverageDao.createFeatureOwnerMappingTable(isDropBeforeCreate);
+        coverageDao.createFeatureOwnerMappingTable();
+    }
+
+    public void createPackageDiffTable(String currentPeriod, String previousPeriod)
+    {
+        coverageDao.createPackageDiffTable(currentPeriod, previousPeriod);
+    }
+
+    public void createClassDiffTable(String currentPeriod, String previousPeriod)
+    {
+        coverageDao.createClassDiffTable(currentPeriod, previousPeriod);
+    }
+
+    public void createPeriodPackageDataTable(String period)
+    {
+        coverageDao.createPeriodPackageDataTable(period);
+    }
+
+    public void createPeriodPackageCompareTable(String period, String previousPeriod)
+    {
+        coverageDao.createPeriodPackageCompareTable(period, previousPeriod);
     }
 }

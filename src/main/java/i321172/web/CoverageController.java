@@ -1,13 +1,9 @@
 package i321172.web;
 
-import i321172.bean.CoverageCompareBean;
 import i321172.core.CacheData;
 import i321172.dao.CoverageDao;
 import i321172.service.http.HttpClient;
 import i321172.utils.ExcelUtilForCC;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class CoverageCompareController
+public class CoverageController
 {
     private Logger         logger = Logger.getLogger(getClass());
     @Resource
@@ -32,7 +28,7 @@ public class CoverageCompareController
     @Resource
     private ExcelUtilForCC ccExcel;
 
-    @RequestMapping(value = "/show")
+    @RequestMapping(value = "/period")
     public String showCodeCoverage(@RequestParam(defaultValue = "RBP") String feature,
             @RequestParam(value = "only", defaultValue = "Package") String only, Model model)
     {
@@ -46,31 +42,12 @@ public class CoverageCompareController
         return "Coverage Compare";
     }
 
-    @RequestMapping(value = "/cover")
-    public String welcome()
-    {
-        return "Coverage";
-    }
-
-    @RequestMapping(value = "/date")
-    public String setCCRunDate(@RequestParam(value = "date", required = false) String date,
-            @RequestParam(value = "site", required = false) String site, Model model) throws Exception
-    {
-        cache.setUrlPrefix(site);
-        cache.setCurrentTime(date);
-        model.addAttribute("result", "OK");
-        return "result";
-    }
-
-    @RequestMapping(value = "/download")
+    @RequestMapping(value = "/period/download")
     public void downloadFile(@RequestParam(value = "feature") String feature,
             @RequestParam(value = "showType", defaultValue = "Class") String featchAll, HttpServletResponse response)
     {
         response.addHeader("content-disposition", "attachment;filename=Code-Coverage-" + feature + ".xls");
-        boolean onlyPackage = "package".equalsIgnoreCase(featchAll);
-        List<CoverageCompareBean> ret = coverageDao.queryList(feature, onlyPackage);
-        List<CoverageCompareBean> pack = onlyPackage ? ret : getPackagelistFromClassList(ret);
-        HSSFWorkbook book = ccExcel.createWorkbook(pack, onlyPackage ? null : ret);
+        HSSFWorkbook book = ccExcel.createWorkbook(null, null);
         try
         {
             book.write(response.getOutputStream());
@@ -87,16 +64,4 @@ public class CoverageCompareController
         return cache.getCoverageFilePrefix();
     }
 
-    public List<CoverageCompareBean> getPackagelistFromClassList(List<CoverageCompareBean> classList)
-    {
-        List<CoverageCompareBean> packageList = new ArrayList<CoverageCompareBean>();
-        for (CoverageCompareBean covBean : classList)
-        {
-            if (covBean.isPackag())
-            {
-                packageList.add(covBean);
-            }
-        }
-        return packageList;
-    }
 }

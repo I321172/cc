@@ -3,10 +3,12 @@ package i321172.bean.cobertura;
 public class PackageBean
 {
     private String period;
+    private String owner;
+    private String feature;
     private String packageName;
-    private float  totalCoverage;
-    private float  lineCoverage;
-    private float  branchCoverage;
+    private double totalCoverage;
+    private double lineCoverage;
+    private double branchCoverage;
     private int    lines;
     private int    coverLines;
     private int    branches;
@@ -26,32 +28,32 @@ public class PackageBean
         this.packageName = packageName;
     }
 
-    public float getTotalCoverage()
+    public double getTotalCoverage()
     {
         return totalCoverage;
     }
 
-    public void setTotalCoverage(float totalCoverage)
+    public void setTotalCoverage(double totalCoverage)
     {
         this.totalCoverage = totalCoverage;
     }
 
-    public float getLineCoverage()
+    public double getLineCoverage()
     {
         return lineCoverage;
     }
 
-    public void setLineCoverage(float lineCoverage)
+    public void setLineCoverage(double lineCoverage)
     {
         this.lineCoverage = lineCoverage;
     }
 
-    public float getBranchCoverage()
+    public double getBranchCoverage()
     {
         return branchCoverage;
     }
 
-    public void setBranchCoverage(float branchCoverage)
+    public void setBranchCoverage(double branchCoverage)
     {
         this.branchCoverage = branchCoverage;
     }
@@ -144,5 +146,25 @@ public class PackageBean
     public void setToBeCoveredBranches(int toBeCoveredBranches)
     {
         this.toBeCoveredBranches = toBeCoveredBranches;
+    }
+
+    public String getFeature()
+    {
+        return feature;
+    }
+
+    public void setFeature(String feature)
+    {
+        this.feature = feature;
+    }
+
+    public String getOwner()
+    {
+        return owner;
+    }
+
+    public void setOwner(String owner)
+    {
+        this.owner = owner;
     }
 }

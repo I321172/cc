@@ -36,6 +36,35 @@ public class BaseDao
         return schema + "." + table;
     }
 
+    public int queryCount(String table, String condition)
+    {
+        return jdbc.queryForObject(
+                new StringBuilder("select count(*) from ").append(table).append(" where ").append(condition).toString(),
+                int.class);
+    }
+
+    public int queryCount(Tables table, String condition)
+    {
+        return queryCount(getTableName(table), condition);
+    }
+
+    public void dropTable(String table)
+    {
+        try
+        {
+            jdbc.execute(String.format("drop table %s", table));
+        } catch (Exception e)
+        {
+            if (!e.getMessage().contains("table or view does not exist"))
+                logger.error(e);
+        }
+    }
+
+    public void dropTable(Tables table)
+    {
+        dropTable(getTableName(table));
+    }
+
     public String getTableName(Tables table)
     {
         return getTableName(table.tableName);

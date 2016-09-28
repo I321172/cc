@@ -85,6 +85,12 @@ public class StringUtil
         return convertToString("", sign, elements, "");
     }
 
+    /**
+     * ( a1,a2)
+     * 
+     * @param elements
+     * @return
+     */
     public static String joinInBrakets(List<String> elements)
     {
         return joinInBrakets(elements, "");

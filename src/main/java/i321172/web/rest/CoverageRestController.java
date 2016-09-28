@@ -16,15 +16,15 @@ import i321172.dao.CoverageDao;
 import i321172.utils.TimeDuration;
 
 @RestController
-public class CoverageCompareRestController
+public class CoverageRestController
 {
     @Resource
     private CoverageDao coverageDao;
     @Resource
     private ParamsBean  paramBean;
-    private Logger      logger = Logger.getLogger(CoverageCompareRestController.class);
+    private Logger      logger = Logger.getLogger(CoverageRestController.class);
 
-    @RequestMapping(value = "/api/show")
+    @RequestMapping(value = "/api/compare")
     public List<CoverageCompareBean> getFeature(@RequestParam String feature,
             @RequestParam(required = false) String fetchType, @RequestParam int startRow, @RequestParam int endRow)
     {
