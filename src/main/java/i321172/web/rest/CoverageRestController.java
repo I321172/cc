@@ -12,17 +12,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import i321172.bean.CoverageCompareBean;
 import i321172.bean.ParamsBean;
+import i321172.bean.cobertura.PackageBean;
+import i321172.bean.cobertura.PackageCompareBean;
 import i321172.dao.CoverageDao;
+import i321172.service.coverage.CoverageService;
 import i321172.utils.TimeDuration;
 
 @RestController
 public class CoverageRestController
 {
     @Resource
-    private CoverageDao coverageDao;
+    private CoverageDao     coverageDao;
     @Resource
-    private ParamsBean  paramBean;
-    private Logger      logger = Logger.getLogger(CoverageRestController.class);
+    private CoverageService service;
+    @Resource
+    private ParamsBean      paramBean;
+    private Logger          logger = Logger.getLogger(CoverageRestController.class);
 
     @RequestMapping(value = "/api/compare")
     public List<CoverageCompareBean> getFeature(@RequestParam String feature,
@@ -36,6 +41,39 @@ public class CoverageRestController
         Date end = new Date();
         logger.info("Duration: " + TimeDuration.getDiff(start, end, "s"));
         return result;
+    }
+
+    @RequestMapping(value = "/api/query/coverage")
+    public String getTotalCoverage(@RequestParam String period)
+    {
+        return service.getTotalCoverage(period);
+    }
+
+    /**
+     * Package Level
+     * 
+     * @param period
+     * @return
+     */
+    @RequestMapping(value = "/api/query/period")
+    public List<PackageBean> getPeriodInfo(@RequestParam String period)
+    {
+        return service.getPeriodInfo(period);
+    }
+
+    /**
+     * Package Level
+     * 
+     * @param cp
+     *            current period
+     * @param pp
+     *            previous period
+     * @return
+     */
+    @RequestMapping(value = "/api/query/period/compare")
+    public List<PackageCompareBean> getPeriodCompareInfo(@RequestParam String cp, @RequestParam String pp)
+    {
+        return service.getPeriodCompareInfo(cp, pp);
     }
 
 }

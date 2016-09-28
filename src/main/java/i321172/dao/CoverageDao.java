@@ -307,7 +307,7 @@ public class CoverageDao extends BaseDao
 
         dropTable(table);
 
-        StringBuilder sb = new StringBuilder("create table ").append(table).append("as select t1.feature, t1.lines ")
+        StringBuilder sb = new StringBuilder("create table ").append(table).append(" as select t1.feature, t1.lines ")
                 .append(period).append("_totalLines, t1.linesexecuted ").append(period)
                 .append("_linesexecuted, t1.branches ").append(period).append("_branches, t1.branchesexecuted ")
                 .append(period).append("_branchesexecuted, t1.tbc ").append(period).append("_tbc, t1.ccrate ")
@@ -376,7 +376,7 @@ public class CoverageDao extends BaseDao
      */
     public List<PackageCompareBean> queryPackageCompareBean(final String cp, final String pp)
     {
-        String table = getTableName(cp + pp + "packagedata");
+        String table = getTableName(cp + pp + "compare");
         String sql = new StringBuilder("select f.owner,p.* from ").append(table).append(" p,")
                 .append(getTableName(Tables.FeatureOwnerMapping)).append(" f where p.feature=f.feature(+) order by ")
                 .append(cp).append("_ccrate desc").toString();
@@ -386,6 +386,7 @@ public class CoverageDao extends BaseDao
             public PackageCompareBean mapRow(ResultSet rs, int rowNum) throws SQLException
             {
                 PackageCompareBean comp = new PackageCompareBean();
+                comp.setPeriod(cp);
                 comp.setOwner(rs.getString("owner"));
                 comp.setFeature(rs.getString("feature"));
                 comp.setLines(rs.getInt(cp + "_totallines"));
@@ -395,13 +396,13 @@ public class CoverageDao extends BaseDao
                 comp.setToBeCoveredLines(rs.getInt(cp + "_tbc"));
                 comp.setTotalCoverage(rs.getDouble(cp + "_ccrate"));
                 PackageBean pre = new PackageBean();
+                pre.setPeriod(pp);
                 pre.setOwner(rs.getString("owner"));
                 pre.setFeature(rs.getString("feature"));
                 pre.setLines(rs.getInt(pp + "_totallines"));
                 pre.setCoverLines(rs.getInt(pp + "_linesexecuted"));
                 pre.setBranches(rs.getInt(pp + "_branches"));
                 pre.setCoverBranches(rs.getInt(pp + "_branchesexecuted"));
-                pre.setToBeCoveredLines(rs.getInt(pp + "_tbc"));
                 pre.setTotalCoverage(rs.getDouble(pp + "_ccrate"));
                 comp.setPrePackageBean(pre);
                 return comp;
@@ -414,7 +415,7 @@ public class CoverageDao extends BaseDao
     {
         String table = getTableName(period + "packagedata");
         String sql = "select (sum(linesexecuted)+sum(branchesexecuted))/(sum(lines)+sum(branches)) totalCoverage from "
-                + getTableName(table);
+                + table;
         return jdbc.queryForObject(sql, Double.class);
     }
 
